@@ -74,15 +74,15 @@ class MathGame
   def game_loop
     loop do
       play_turn
-      break unless @player_1.alive? &&@player_2.alive?
+      break unless @player_1.alive? &&@player_2.alive? #ends when player lives == 0
     end
   end
 
   #the logic for one full turn
   def play_turn
     puts "----- NEW TURN -----"
-    question = Question.new
-    question.generate_question(@current_player)
+    question = Question.new #creates a new question object
+    question.generate_question(@current_player) #question called with current player
 
     print "Answer: "
     answer = gets.chomp.to_i
@@ -97,13 +97,14 @@ class MathGame
     puts @player_1.player_status
     puts @player_2.player_status + "\n\n"
 
-    if !@player_1.alive? || !@player_2.alive?
+    if !@player_1.alive? || !@player_2.alive? #runs checks winner if player lives == 0
       check_winner
     else
-      switch_player
+      switch_player #if both players are alive, switches players
     end
 end
 
+  #ternary logic for switching players
   def switch_player
     @current_player = @current_player == @player_1 ? @player_2 : @player_1
   end
@@ -113,10 +114,12 @@ end
    @current_player == @player_1 ? @player_2 : @player_1
   end
   
+  #i guess i don't really need this if all it does is print one line
   def next_turn
     puts "----- NEW TURN -----"
   end
   
+  #simple, if a player dies, logical statements are exicuted to announce winner and run end_game
   def check_winner
     if !@player_1.alive?
       puts "#{@player_2.name} wins with #{@player_2.lives} lives left!"
@@ -125,12 +128,12 @@ end
       puts "#{@player_1.name} wins with #{@player_1.lives} lives left!"
       end_game
     else
-      next_turn
+      next_turn #fail safe against poor logic
     end
   end
 
   def end_game
-    puts "----- GAME OVER ----- \n Good bye"
+    puts "----- GAME OVER ----- \nGood bye"
   end
 end
 
